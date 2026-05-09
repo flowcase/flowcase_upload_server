@@ -1,4 +1,5 @@
 mod cli;
+mod tls;
 
 use clap::Parser;
 
