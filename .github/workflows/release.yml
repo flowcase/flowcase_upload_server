@@ -1,0 +1,43 @@
+name: release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-22.04
+            arch: amd64
+          - os: ubuntu-22.04-arm
+            arch: arm64
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+
+      - name: cargo build --release
+        run: cargo build --release
+
+      - name: package tarball
+        # install_upload_server.sh extracts the tarball straight into
+        # $STARTUPDIR/upload_server and runs the binary by its Cargo
+        # name (`flowcase_upload_server`, no extension), so we ship it
+        # at the tarball root unchanged.
+        run: |
+          set -euo pipefail
+          stage=$(mktemp -d)
+          cp target/release/flowcase_upload_server "$stage/"
+          tar -czvf flowcase_upload_server_${{ matrix.arch }}.tar.gz \
+              -C "$stage" flowcase_upload_server
+
+      - name: upload to release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: flowcase_upload_server_${{ matrix.arch }}.tar.gz
