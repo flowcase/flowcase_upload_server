@@ -1,6 +1,7 @@
 mod auth;
 mod cli;
 mod tls;
+mod upload;
 
 use clap::Parser;
 
