@@ -12,7 +12,6 @@ use tracing::warn;
 #[derive(Clone)]
 pub struct UploadDir(pub Arc<PathBuf>);
 
-#[allow(dead_code)] // wired up in T1B.5
 impl UploadDir {
     pub fn new(p: PathBuf) -> Self {
         Self(Arc::new(p))
@@ -28,7 +27,6 @@ struct ChunkInfo {
     total_chunk_count: u64,
 }
 
-#[allow(dead_code)] // wired up in T1B.5
 pub async fn handle_upload(State(dir): State<UploadDir>, multipart: Multipart) -> Response {
     let info = match parse_multipart(multipart).await {
         Ok(i) => i,

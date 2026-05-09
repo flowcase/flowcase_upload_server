@@ -7,7 +7,6 @@ use rustls::ServerConfig;
 /// Generate an in-memory self-signed cert+key for `localhost` and
 /// build a rustls [`ServerConfig`] from them. Mirrors the legacy
 /// Flask `ssl_context="adhoc"` flag.
-#[allow(dead_code)] // wired up in T1B.5
 pub fn build_self_signed_config() -> Result<ServerConfig> {
     install_default_crypto_provider();
 
@@ -43,7 +42,6 @@ fn parse_private_key(pem: &str) -> Result<PrivateKeyDer<'static>> {
         .ok_or_else(|| anyhow!("no private key in self-signed PEM"))
 }
 
-#[allow(dead_code)] // called by build_self_signed_config; wired up in T1B.5
 fn install_default_crypto_provider() {
     static INIT: Once = Once::new();
     INIT.call_once(|| {

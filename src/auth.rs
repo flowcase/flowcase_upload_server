@@ -22,7 +22,6 @@ use base64::Engine as _;
 /// The Python's "Failed to decode auth 2" branch (ISO-8859-1 decode
 /// failure) is unreachable — ISO-8859-1 is a single-byte encoding —
 /// so we don't replicate it.
-#[allow(dead_code)] // wired up in T1B.5
 pub async fn require_basic_auth(
     State(expected): State<Arc<String>>,
     req: Request,
