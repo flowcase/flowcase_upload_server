@@ -1,0 +1,20 @@
+[package]
+name = "flowcase_upload_server"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.79"
+
+[dependencies]
+tokio = { version = "1.41", features = ["full"] }
+axum = { version = "0.7", features = ["multipart"] }
+tower-http = { version = "0.6", features = ["trace", "limit"] }
+tokio-rustls = "0.26"
+rustls = "0.23"
+rustls-pemfile = "2.2"
+rcgen = "0.13"
+clap = { version = "4.5", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1.0"
+thiserror = "2.0"
+base64 = "0.22"
